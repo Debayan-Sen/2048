@@ -1,6 +1,8 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+
+    background-color: #5fce16;
 }
 
 hr{
@@ -17,6 +19,21 @@ hr{
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+}
+
+#reset {
+    width: 200px;
+    height: 50px;
+
+    background-color: #cdc1b5;
+    border: 1px solid #101010;
+
+    margin: 20px auto;
+    font-weight:  bold;
+    align-items: center;
+    justify-content: center;
+    font-size: medium;
+
 }
 
 .tile{

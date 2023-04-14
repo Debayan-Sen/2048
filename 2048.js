@@ -5,9 +5,14 @@ var columns = 4;
 
 window.onload = function() {
     setGame();
+    document.getElementById("reset").addEventListener("click", setGame);
 }
 
 function setGame() {
+    score = 0;
+    document.getElementById("board").innerHTML = "";
+    document.getElementById("score").innerText = score;
+    
     board = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
