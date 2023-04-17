@@ -2,6 +2,9 @@ var board;
 var score = 0;
 var rows = 4;
 var columns = 4;
+const finalNum = 2048; // upto 2048
+var gameOver;
+var gameWin;
 
 window.onload = function() {
     setGame();
@@ -9,9 +12,12 @@ window.onload = function() {
 }
 
 function setGame() {
+    gameOver = false;
+    gameWin = false;
     score = 0;
     document.getElementById("board").innerHTML = "";
-    document.getElementById("score").innerText = score;
+    printScore();
+    document.addEventListener("keyup", control); // key control access
     
     board = [
         [0, 0, 0, 0],
@@ -49,7 +55,9 @@ function hasEmptyTile() {
 function setTwo() {
 
     if(!hasEmptyTile()){
-        alert("Game Over! Your Score - " + score);
+        // as no empty space left, game will end
+        gameOver = true;
+        endGame();
         return;
     }
 
@@ -83,7 +91,7 @@ function updateTile(tile, num) {
     }
 }
 
-document.addEventListener("keyup", (e) => {
+function control(e) {
     if(e.code == "ArrowLeft") {
         slideLeft();
         setTwo();
@@ -101,8 +109,8 @@ document.addEventListener("keyup", (e) => {
         setTwo();
     }
 
-    document.getElementById("score").innerText = score;
-})
+    printScore();
+}
 
 function filterZero(row) {
     return row.filter(num => num!=0); // creates new array without zeros
@@ -119,6 +127,11 @@ function slide(row) {
             row[i+1] = 0;
             score += row[i];
         } // [2, 2, 2] -> [4, 0, 2]
+        if(row[i] >= finalNum){
+            gameWin = true;
+            gameOver = true;
+            endGame();
+        } // final num reached for win
     }
 
     row = filterZero(row); // [4, 2]
@@ -201,4 +214,20 @@ function slideDown() {
 
         }
     }
+}
+
+function printScore() {
+    if(!gameOver && !gameWin){
+        document.getElementById("score").innerText = "Score: " + score;
+    }
+    if(gameOver){
+        document.getElementById("score").innerText = "Game Over! Your Score - " + score;
+    }
+    if(gameOver && gameWin) {
+        document.getElementById("score").innerText = "YOU WIN!! Your Score - " + score;
+    }
+}
+
+function endGame() {
+    document.removeEventListener("keyup", control); // revoke key effect
 }
